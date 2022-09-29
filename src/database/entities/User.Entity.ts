@@ -1,8 +1,10 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
+import { UserRoles } from '../models/User.model';
+import { PostEntity } from './Post.Entity';
 import Base from './Base';
 
-@Entity()
-export class User extends Base {
+@Entity('users')
+export class UserEntity extends Base {
   @Column({ length: 100 })
   public name: string;
 
@@ -11,4 +13,10 @@ export class User extends Base {
 
   @Column()
   public password: string;
+
+  @Column({ type: 'enum', enum: ['ADMIN', 'USER'], default: 'USER' })
+  public role: UserRoles;
+
+  @OneToMany(() => PostEntity, (post) => post.author)
+  posts: PostEntity[];
 }
