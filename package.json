@@ -26,7 +26,7 @@
     "typeorm": "npx typeorm-ts-node-esm -d ./src/database",
     "typeorm:migrations:run": "npm run typeorm migration:run",
     "typeorm:revert": "npm run typeorm migration:revert",
-    "typeorm:migrate": "npm run typeorm migration:generate ./src/database/migrations/Migration"
+    "typeorm:migrate": "npm run typeorm migration:generate ./src/database/migrations/Migrations"
   },
   "repository": {
     "type": "git",

@@ -5,7 +5,7 @@ import Base from './Base';
 
 @Entity('users')
 export class UserEntity extends Base {
-  @Column({ length: 100 })
+  @Column({ length: 120 })
   public name: string;
 
   @Column({ unique: true })

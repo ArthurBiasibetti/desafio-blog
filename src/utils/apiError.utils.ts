@@ -1,6 +1,7 @@
 export default class ApiError extends Error {
   constructor(
-    private statusCode: number,
+    public statusCode: number,
+    private customObject: any,
     private isOperational: boolean = true,
     message: string,
     stack: string = ''
@@ -8,6 +9,7 @@ export default class ApiError extends Error {
     super(message);
     this.statusCode = statusCode;
     this.isOperational = isOperational;
+    this.customObject = customObject;
     if (stack) {
       this.stack = stack;
     } else {

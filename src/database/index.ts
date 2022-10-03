@@ -9,6 +9,6 @@ export const AppDataSource = new DataSource({
   database: 'mistureba-blog',
   entities: [`${__dirname}/entities/*.Entity.ts`],
   migrations: [`${__dirname}/migrations/*.ts`],
-  synchronize: true,
+  synchronize: false,
   logging: true,
 });
