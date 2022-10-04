@@ -1,4 +1,4 @@
-import { AppDataSource } from '../../database';
+import AppDataSource from '../../database';
 import { PostEntity } from '../../database/entities/Post.Entity';
 
 import SearchPostsUseCase from './SearchPostsUseCase';

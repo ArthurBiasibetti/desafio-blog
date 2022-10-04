@@ -1,4 +1,4 @@
-import { AppDataSource } from '../../database';
+import AppDataSource from '../../database';
 import { CategoryEntity } from '../../database/entities/Category.Entity';
 
 import CreateCategoryUseCase from './CreateCategoryUseCase';

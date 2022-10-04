@@ -1,4 +1,4 @@
-import { AppDataSource } from '../database';
+import AppDataSource from '../database';
 import config from './config';
 import logger from './logger';
 

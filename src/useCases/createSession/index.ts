@@ -1,4 +1,4 @@
-import { AppDataSource } from '../../database';
+import AppDataSource from '../../database';
 import { UserEntity } from '../../database/entities/User.Entity';
 
 import CreateSessionUseCase from './CreateSessionUseCase';

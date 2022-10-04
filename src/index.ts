@@ -17,25 +17,25 @@ app.use(compression());
 app.use(cors());
 app.options('*', cors());
 
-routes(app);
-
 if (config.env !== environments.PRODUCTION) {
   app.use(morgan('tiny'));
 }
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-app.use((error: any, req: Request, res: Response, _next: NextFunction) => {
-  return res.status(error.statusCode || 500).json({
-    status: 'error',
-    message: error.message,
-    error: error.customObject || undefined,
-  });
-});
 
 app.listen(config.port, async () => {
   logger.info(`API rodando em http://${config.publicUrl}:${config.port}`);
 
   await database();
+
+  routes(app);
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  app.use((error: any, req: Request, res: Response, _next: NextFunction) => {
+    return res.status(error.statusCode || 500).json({
+      status: 'error',
+      message: error.message,
+      error: error.customObject || undefined,
+    });
+  });
 });
 
 export default app;

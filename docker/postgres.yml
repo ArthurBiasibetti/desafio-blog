@@ -6,6 +6,6 @@ services:
     restart: always
     environment:
       POSTGRES_PASSWORD: 123456
-      POSTGRES_DB: mistureba-blog
+      POSTGRES_DB: purplose-blog
     ports:
       - '5432:5432'
