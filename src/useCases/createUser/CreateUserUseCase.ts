@@ -23,7 +23,7 @@ export default class CreateUserUseCase {
     }
 
     if (errors.length) {
-      throw new ApiError(400, errors, false, 'Invalid request');
+      throw new ApiError(400, errors, true, 'Invalid request!');
     }
   }
 
@@ -33,7 +33,7 @@ export default class CreateUserUseCase {
     });
 
     if (user) {
-      throw new ApiError(400, [], false, 'Email alredy exist!');
+      throw new ApiError(400, [], true, 'Email alredy exist!');
     }
   }
 
@@ -50,6 +50,6 @@ export default class CreateUserUseCase {
 
     await this.userRepository.save(user);
 
-    return user;
+    return user.id;
   }
 }
