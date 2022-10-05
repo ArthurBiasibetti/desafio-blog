@@ -26,12 +26,12 @@ export default class CreateSessionUseCase {
   }
 
   async execute(data: ICreateSessionDTO) {
-    const { id, name, password, role } = await this.validateLogin(data);
+    const { id, name, role } = await this.validateLogin(data);
 
     const payload = { id };
 
     const token = signJwt(payload, { expiresIn: config.accessTokenTtl });
 
-    return { token, user: { id, name, password, role } };
+    return { token, user: { id, name, role } };
   }
 }

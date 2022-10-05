@@ -9,12 +9,16 @@ import logger from './config/logger';
 import database from './config/database';
 import routes from './routes';
 
+const corsOptions = {
+  exposedHeaders: ['authorization', 'refresh'],
+};
+
 const app = express();
 
 app.use(express.json());
 app.use(helmet());
 app.use(compression());
-app.use(cors());
+app.use(cors(corsOptions));
 app.options('*', cors());
 routes(app);
 
