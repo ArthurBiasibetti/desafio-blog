@@ -1,4 +1,3 @@
-import { isArray } from 'lodash';
 import { Repository } from 'typeorm';
 import { CategoryEntity } from '../../database/entities/Category.Entity';
 import { PostEntity } from '../../database/entities/Post.Entity';
@@ -12,30 +11,6 @@ export default class CreatePostUseCase {
     private userRepository: Repository<UserEntity>,
     private categoryRepository: Repository<CategoryEntity>
   ) {}
-
-  private validateData(data: ICreatePostRequestDTO) {
-    const errors = [];
-
-    if (!data.name) {
-      errors.push('name is required!');
-    }
-
-    if (!data.description) {
-      errors.push('description is required!');
-    }
-
-    if (!data.categories.length) {
-      errors.push('categories is required!');
-    }
-
-    if (data.categories && !isArray(data.categories)) {
-      errors.push('categories must be an array!');
-    }
-
-    if (errors.length) {
-      throw new ApiError(400, errors, true, 'Invalid request!');
-    }
-  }
 
   private async getAuthor(userId: string) {
     const user = await this.userRepository.findOne({ where: { id: userId } });
@@ -76,8 +51,6 @@ export default class CreatePostUseCase {
   }
 
   async execute(data: ICreatePostRequestDTO) {
-    this.validateData(data);
-
     const author = await this.getAuthor(data.userId);
     const categories = await this.getCategories(data.categories);
 

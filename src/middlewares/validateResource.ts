@@ -8,11 +8,16 @@ const validate =
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const validSchema = pick(schema.fields, ['params', 'query', 'body']);
+
       const object = pick(req, Object.keys(validSchema));
       await schema.validate(object, { abortEarly: false });
       next();
     } catch (e: any) {
-      res.status(StatusCodes.BAD_REQUEST).send(e.errors);
+      res.status(StatusCodes.BAD_REQUEST).json({
+        status: 'error',
+        message: 'Invalid request!',
+        error: e.errors,
+      });
     }
   };
 

@@ -7,26 +7,6 @@ import hash from '../../utils/hash.utils';
 export default class CreateUserUseCase {
   constructor(private userRepository: Repository<UserEntity>) {}
 
-  private validateData(data: ICreateUserRequestDTO) {
-    const errors = [];
-
-    if (!data.email) {
-      errors.push('email is required!');
-    }
-
-    if (!data.name) {
-      errors.push('name is required!');
-    }
-
-    if (!data.password) {
-      errors.push('password is required!');
-    }
-
-    if (errors.length) {
-      throw new ApiError(400, errors, true, 'Invalid request!');
-    }
-  }
-
   private async validateUserExist(data: ICreateUserRequestDTO) {
     const user = await this.userRepository.findOne({
       where: { email: data.email },
@@ -38,7 +18,6 @@ export default class CreateUserUseCase {
   }
 
   async execute(data: ICreateUserRequestDTO) {
-    this.validateData(data);
     await this.validateUserExist(data);
 
     const hashedPassword = await hash(data.password);
