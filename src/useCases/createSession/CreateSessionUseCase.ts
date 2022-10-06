@@ -10,7 +10,10 @@ export default class CreateSessionUseCase {
   constructor(private userRepository: Repository<UserEntity>) {}
 
   private async validateLogin(login: ICreateSessionDTO) {
-    const user = await this.userRepository.findOneBy({ email: login.email });
+    const user = await this.userRepository.findOne({
+      where: { email: login.email },
+      relations: { posts: true },
+    });
 
     if (!user) {
       throw new ApiError(401, [], true, 'User not found!');
@@ -26,12 +29,12 @@ export default class CreateSessionUseCase {
   }
 
   async execute(data: ICreateSessionDTO) {
-    const { id, name, role } = await this.validateLogin(data);
+    const { id, name, role, posts } = await this.validateLogin(data);
 
     const payload = { id };
 
     const token = signJwt(payload, { expiresIn: config.accessTokenTtl });
 
-    return { token, user: { id, name, role } };
+    return { token, user: { id, name, role, posts } };
   }
 }

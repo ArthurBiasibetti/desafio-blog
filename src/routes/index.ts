@@ -12,7 +12,7 @@ function routes(app: Express) {
 
   app.use('/api/user', userPublicRoutes);
   app.use('/api/user/session', sessionRoutes);
-  app.use('/api/user/post', postPrivateRoutes);
+  app.use('/api/post/user', postPrivateRoutes);
   app.use('/api/post', postPublicRoutes);
   app.use('/api/category', categoryPrivateRoutes);
 }

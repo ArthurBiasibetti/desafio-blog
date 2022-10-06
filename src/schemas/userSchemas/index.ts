@@ -12,3 +12,14 @@ export const createUserSchema = yup.object({
     })
     .required(),
 });
+
+export const searchUserSchema = yup.object({
+  params: yup
+    .object({
+      id: yup
+        .string()
+        .uuid('id is required to be an uuid!')
+        .required('id is required!'),
+    })
+    .required(),
+});
