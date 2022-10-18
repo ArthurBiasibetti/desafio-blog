@@ -89,7 +89,7 @@
     "nanoid": "^3.1.30",
     "pg": "^8.8.0",
     "reflect-metadata": "^0.1.13",
-    "swagger-jsdoc": "^6.1.0",
+    "swagger-jsdoc": "^6.2.5",
     "swagger-ui-express": "^4.1.6",
     "typeorm": "^0.3.10",
     "typeorm-extension": "^2.1.12",

@@ -44,7 +44,7 @@ export default class CreatePostUseCase {
     }
 
     if (errors.length) {
-      throw new ApiError(401, errors, true, 'Invalid request!');
+      throw new ApiError(400, errors, true, 'Invalid request!');
     }
 
     return categoriesResult;

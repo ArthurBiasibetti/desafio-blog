@@ -14,7 +14,6 @@ const validate =
       next();
     } catch (e: any) {
       res.status(StatusCodes.BAD_REQUEST).json({
-        status: 'error',
         message: 'Invalid request!',
         error: e.errors,
       });

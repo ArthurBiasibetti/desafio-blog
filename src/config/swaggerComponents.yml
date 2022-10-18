@@ -1,0 +1,60 @@
+components:
+  schemas:
+    Error:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+    RequestError:
+      type: object
+      required:
+        - message
+        - error
+      properties:
+        message:
+          type: string
+        error:
+          type: array
+          items:
+            type: string
+  responses:
+    BadRequest:
+      description: Bad Request!
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RequestError'
+          example:
+            message: Invalid request!
+            error: ['property X is required, property Y can not be null']
+    Unauthorized:
+      description: Unauthorized access!
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: User is not authenticated
+    Forbidden:
+      description: Forbidden!
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Forbidden!
+    NotFound:
+      description: Not Found!
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            message: Not Found!
+    securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
