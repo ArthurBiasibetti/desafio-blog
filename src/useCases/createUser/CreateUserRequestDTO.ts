@@ -1,3 +1,5 @@
-import { UserModel } from '../../database/models/User.model';
-
-export interface ICreateUserRequestDTO extends UserModel {}
+export interface ICreateUserRequestDTO {
+  name: string;
+  password: string;
+  email: string;
+}

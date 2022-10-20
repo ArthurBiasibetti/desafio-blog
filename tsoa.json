@@ -1,0 +1,15 @@
+{
+  "entryFile": "src/index.ts",
+  "noImplicitAdditionalProperties": "throw-on-extras",
+  "controllerPathGlobs": ["src/useCases/**/*Controller.ts"],
+  "spec": {
+    "outputDirectory": "./dist",
+    "specVersion": 3,
+    "host": "localhost:3001",
+    "schemes": ["http", "https"]
+  },
+  "routes": {
+    "routesDir": "src/routes",
+    "iocModule": "src/services/iocModule.ts"
+  }
+}

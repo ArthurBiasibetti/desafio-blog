@@ -1,24 +1,40 @@
-import { NextFunction, Request, Response } from 'express';
-import logger from '../../config/logger';
+import {
+  Route,
+  Post,
+  Body,
+  SuccessResponse,
+  Tags,
+  Controller,
+  Response,
+  Example,
+} from 'tsoa';
+import { injectable } from 'tsyringe';
+import { IBadRequest } from '../../interfaces/IBadRequest';
 import { ICreateUserRequestDTO } from './CreateUserRequestDTO';
-import CreateUserUseCase from './CreateUserUseCase';
+import { CreateUserUseCase } from './CreateUserUseCase';
 
-export default class CreateUserController {
-  constructor(private useCase: CreateUserUseCase) {}
+@injectable()
+@Route('api/user')
+export class CreateUserController extends Controller {
+  constructor(private useCase: CreateUserUseCase) {
+    super();
+  }
 
-  async handle(
-    request: Request<{}, {}, ICreateUserRequestDTO, {}>,
-    response: Response,
-    next: NextFunction
-  ) {
-    try {
-      const data = request.body;
-      const useCaseResult = await this.useCase.execute(data);
+  /**
+   * Cria um novo Usuário e retorna seu id.
+   * @summary Cria um novo Usuário.
+   */
+  @Tags('User')
+  @SuccessResponse('201', 'Created')
+  @Example('de5b6d6f-4164-403b-a839-93eb5bf773ff')
+  @Response<IBadRequest>(400, 'Bad reuqest some field wrong data!', {
+    message: 'Email alredy exist!',
+    error: [],
+  })
+  @Post()
+  async handle(@Body() data: ICreateUserRequestDTO): Promise<string> {
+    const useCaseResult = await this.useCase.execute(data);
 
-      return response.status(201).json(useCaseResult);
-    } catch (error: any) {
-      logger.error(`CreateUserController: ${error.message}`);
-      return next(error);
-    }
+    return useCaseResult;
   }
 }

@@ -1,10 +1,8 @@
-import AppDataSource from '../../database';
-import { UserEntity } from '../../database/entities/User.Entity';
+import { UserRepository } from '../../repositories/userRepository';
+import { CreateUserUseCase } from './CreateUserUseCase';
+import { CreateUserController } from './CreateUserController';
 
-import CreateUserUseCase from './CreateUserUseCase';
-import CreateUserController from './CreateUserController';
-
-const userRepository = AppDataSource.getRepository(UserEntity);
+const userRepository = new UserRepository();
 const useCase = new CreateUserUseCase(userRepository);
 
 const controller = new CreateUserController(useCase);
