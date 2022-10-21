@@ -1,19 +1,21 @@
-import { Repository } from 'typeorm';
+import { singleton } from 'tsyringe';
 import { CategoryEntity } from '../../database/entities/Category.Entity';
-import { PostEntity } from '../../database/entities/Post.Entity';
-import { UserEntity } from '../../database/entities/User.Entity';
+import { CategoryRepository } from '../../repositories/categoryRepository';
+import { PostRepository } from '../../repositories/postRepository';
+import { UserRepository } from '../../repositories/userRepository';
 import ApiError from '../../utils/apiError.utils';
 import ICreatePostRequestDTO from './CreatePostRequestDTO';
 
+@singleton()
 export default class CreatePostUseCase {
   constructor(
-    private postRepository: Repository<PostEntity>,
-    private userRepository: Repository<UserEntity>,
-    private categoryRepository: Repository<CategoryEntity>
+    private postRepository: PostRepository,
+    private userRepository: UserRepository,
+    private categoryRepository: CategoryRepository
   ) {}
 
   private async getAuthor(userId: string) {
-    const user = await this.userRepository.findOne({ where: { id: userId } });
+    const user = await this.userRepository.findById(userId);
 
     if (!user) {
       throw new ApiError(400, [], true, 'User not found!');
@@ -29,10 +31,7 @@ export default class CreatePostUseCase {
     // eslint-disable-next-line no-restricted-syntax
     for (const categoryId of categories) {
       // eslint-disable-next-line no-await-in-loop
-      const category = await this.categoryRepository
-        .createQueryBuilder('categories')
-        .where('id::text = :id', { id: categoryId })
-        .getOne();
+      const category = await this.categoryRepository.findById(categoryId);
 
       if (!category) {
         errors.push(`category ${categoryId} not found`);
@@ -54,14 +53,15 @@ export default class CreatePostUseCase {
     const author = await this.getAuthor(data.userId);
     const categories = await this.getCategories(data.categories);
 
-    const post = new PostEntity();
-    post.description = data.description;
-    post.name = data.name;
-    post.author = author;
-    post.categories = categories;
+    const postId = await this.postRepository.create(
+      {
+        description: data.description,
+        name: data.name,
+      },
+      author,
+      categories
+    );
 
-    await this.postRepository.save(post);
-
-    return post.id;
+    return postId;
   }
 }

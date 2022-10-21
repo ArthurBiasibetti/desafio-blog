@@ -6,9 +6,23 @@ import { IUserRepository } from '../interfaces/IUserRepository';
 export class UserRepository implements IUserRepository {
   private repository = AppDataSource.getRepository(UserEntity);
 
+  async findById(id: string): Promise<UserEntity | null> {
+    const user = await this.repository.findOne({
+      where: {
+        id,
+      },
+      relations: { posts: true },
+    });
+
+    return user;
+  }
+
   async findByEmail(email: string): Promise<UserEntity | null> {
-    const user = await this.repository.findOneBy({
-      email,
+    const user = await this.repository.findOne({
+      where: {
+        email,
+      },
+      relations: { posts: true },
     });
 
     return user;

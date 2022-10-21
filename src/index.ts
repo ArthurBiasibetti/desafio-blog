@@ -26,7 +26,7 @@ app.options('*', cors());
 RegisterRoutes(app);
 
 app.use('/docs', swaggerUi.serve, async (req: Request, res: Response) => {
-  return res.send(swaggerUi.generateHTML(await import('../dist/swagger.json')));
+  return res.send(swaggerUi.generateHTML(await import('./swagger.json')));
 });
 
 if (config.env !== environments.PRODUCTION) {

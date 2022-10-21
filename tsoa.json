@@ -3,13 +3,23 @@
   "noImplicitAdditionalProperties": "throw-on-extras",
   "controllerPathGlobs": ["src/useCases/**/*Controller.ts"],
   "spec": {
-    "outputDirectory": "./dist",
+    "securityDefinitions": {
+      "auth": {
+        "type": "http",
+        "scheme": "Bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "basePath": "/api",
+    "outputDirectory": "./src",
     "specVersion": 3,
     "host": "localhost:3001",
     "schemes": ["http", "https"]
   },
   "routes": {
+    "basePath": "/api",
     "routesDir": "src/routes",
-    "iocModule": "src/services/iocModule.ts"
+    "iocModule": "src/services/iocModule.ts",
+    "authenticationModule": "src/middlewares/tsoaAuthentication.ts"
   }
 }

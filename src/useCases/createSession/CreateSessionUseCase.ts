@@ -1,19 +1,17 @@
-import { Repository } from 'typeorm';
+import { singleton } from 'tsyringe';
 import bcrypt from 'bcrypt';
 import ApiError from '../../utils/apiError.utils';
 import ICreateSessionDTO from './CreateSessionDTO';
 import config from '../../config/config';
-import { UserEntity } from '../../database/entities/User.Entity';
 import { signJwt } from '../../utils/jwt.utils';
+import { UserRepository } from '../../repositories/userRepository';
 
+@singleton()
 export default class CreateSessionUseCase {
-  constructor(private userRepository: Repository<UserEntity>) {}
+  constructor(private userRepository: UserRepository) {}
 
   private async validateLogin(login: ICreateSessionDTO) {
-    const user = await this.userRepository.findOne({
-      where: { email: login.email },
-      relations: { posts: true },
-    });
+    const user = await this.userRepository.findByEmail(login.email);
 
     if (!user) {
       throw new ApiError(401, [], true, 'User not found!');

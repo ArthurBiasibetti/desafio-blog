@@ -1,29 +1,39 @@
-import { NextFunction, Request, Response } from 'express';
+import {
+  Body,
+  Controller,
+  Request,
+  Route,
+  Tags,
+  Post,
+  SuccessResponse,
+  Security,
+} from 'tsoa';
+import { injectable } from 'tsyringe';
+import express from 'express';
 import CreatePostUseCase from './CreatePostUseCase';
-import logger from '../../config/logger';
 import ICreatePostRequestDTO from './CreatePostRequestDTO';
 
-export default class CreatePostController {
-  constructor(private useCase: CreatePostUseCase) {}
+type DataType = Omit<ICreatePostRequestDTO, 'userId'>;
 
-  async handle(
-    request: Request<{}, {}, ICreatePostRequestDTO, {}>,
-    response: Response,
-    next: NextFunction
-  ) {
-    try {
-      const data = request.body;
-      const { user } = response.locals;
+@injectable()
+@Route('/post/user')
+@Tags('Post')
+export class CreatePostController extends Controller {
+  constructor(private useCase: CreatePostUseCase) {
+    super();
+  }
 
-      const useCaseResult = await this.useCase.execute({
-        ...data,
-        userId: user.id,
-      });
+  @SuccessResponse('201', 'Created')
+  @Security('auth')
+  @Post()
+  async handle(@Body() data: DataType, @Request() request: express.Request) {
+    const user = request.res?.locals?.user || {};
 
-      return response.status(201).json(useCaseResult);
-    } catch (error: any) {
-      logger.error(`CreatePostController: ${error.message}`);
-      return next(error);
-    }
+    const useCaseResult = await this.useCase.execute({
+      ...data,
+      userId: user.id,
+    });
+
+    return useCaseResult;
   }
 }
