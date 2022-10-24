@@ -2,6 +2,7 @@ import { Request } from 'express';
 import { get } from 'lodash';
 import ApiError from '../utils/apiError.utils';
 import { verifyJwt } from '../utils/jwt.utils';
+import adminAuthentication from '../utils/validateAdmin';
 
 export const expressAuthentication = async (
   request: Request,
@@ -27,6 +28,10 @@ export const expressAuthentication = async (
 
     if (decoded && request.res) {
       request.res.locals.user = decoded;
+
+      if (scopes?.includes('ADMIN') && typeof decoded === 'object') {
+        await adminAuthentication(decoded.id);
+      }
     }
   }
 };

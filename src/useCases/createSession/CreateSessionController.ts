@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  OperationId,
   Post,
   Response,
   Route,
@@ -34,6 +35,7 @@ export class CreateSessionController extends Controller {
     { message: 'Wrong password!', error: [] },
   ])
   @Post()
+  @OperationId('createSession')
   async handle(
     @Body() data: ICreateSessionDTO
   ): Promise<ICreateSessionResponseDTO> {

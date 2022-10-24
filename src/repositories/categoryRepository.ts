@@ -6,8 +6,28 @@ import { ICategoryRepository } from '../interfaces/ICategoryRepository';
 export class CategoryRepository implements ICategoryRepository {
   private repository = AppDataSource.getRepository(CategoryEntity);
 
-  create(categoryData: CategoryModel): Promise<string> {
-    throw new Error('Method not implemented.');
+  async create(categoryData: CategoryModel): Promise<string> {
+    const category = new CategoryEntity();
+    category.name = categoryData.name;
+
+    const { id } = await this.repository.save(category);
+
+    return id;
+  }
+
+  async findAll(): Promise<CategoryEntity[]> {
+    const categories = await this.repository.find();
+
+    return categories;
+  }
+
+  async findByName(name: string): Promise<CategoryEntity | null> {
+    const category = await this.repository
+      .createQueryBuilder('categories')
+      .where('UPPER(:name) = UPPER(name)', { name })
+      .getOne();
+
+    return category;
   }
 
   async findById(id: string): Promise<CategoryEntity | null> {

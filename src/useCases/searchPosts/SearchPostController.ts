@@ -1,18 +1,32 @@
-import { NextFunction, Request, Response } from 'express';
-import logger from '../../config/logger';
+import {
+  Route,
+  SuccessResponse,
+  Tags,
+  Get,
+  Controller,
+  OperationId,
+} from 'tsoa';
+import { injectable } from 'tsyringe';
 import SearchPostsUseCase from './SearchPostsUseCase';
 
-export default class SearchPostsController {
-  constructor(private useCase: SearchPostsUseCase) {}
+@injectable()
+@Route('post')
+@Tags('Post')
+export class SearchPostsController extends Controller {
+  constructor(private useCase: SearchPostsUseCase) {
+    super();
+  }
 
-  async handle(request: Request, response: Response, next: NextFunction) {
-    try {
-      const posts = await this.useCase.execute();
+  /**
+   * Busca todos os posts junto com o author e as categorias.
+   * @summary Busca todos os posts.
+   */
+  @SuccessResponse('200', 'Ok')
+  @Get()
+  @OperationId('findPosts')
+  async handle() {
+    const posts = await this.useCase.execute();
 
-      return response.status(200).json(posts);
-    } catch (error: any) {
-      logger.error(`SearchPostsController: ${error.message}`);
-      return next(error);
-    }
+    return posts;
   }
 }

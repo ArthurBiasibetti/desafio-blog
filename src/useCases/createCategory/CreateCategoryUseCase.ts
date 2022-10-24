@@ -1,10 +1,11 @@
-import { Repository } from 'typeorm';
-import { CategoryEntity } from '../../database/entities/Category.Entity';
+import { singleton } from 'tsyringe';
+import { CategoryRepository } from '../../repositories/categoryRepository';
 import ApiError from '../../utils/apiError.utils';
 import { ICreateCategoryRequestDTO } from './CreateCategoryRequestDTO';
 
+@singleton()
 export default class CreateCategoryUseCase {
-  constructor(private categoryRepository: Repository<CategoryEntity>) {}
+  constructor(private categoryRepository: CategoryRepository) {}
 
   private validateData(data: ICreateCategoryRequestDTO) {
     const errors = [];
@@ -19,10 +20,7 @@ export default class CreateCategoryUseCase {
   }
 
   private async validateCategoryExist(data: ICreateCategoryRequestDTO) {
-    const category = await this.categoryRepository
-      .createQueryBuilder('categories')
-      .where('UPPER(:name) = UPPER(name)', { name: data.name })
-      .getOne();
+    const category = await this.categoryRepository.findByName(data.name);
 
     if (category) {
       throw new ApiError(
@@ -38,11 +36,8 @@ export default class CreateCategoryUseCase {
     this.validateData(data);
     await this.validateCategoryExist(data);
 
-    const category = new CategoryEntity();
-    category.name = data.name;
+    const categoryId = await this.categoryRepository.create(data);
 
-    await this.categoryRepository.save(category);
-
-    return category.id;
+    return categoryId;
   }
 }

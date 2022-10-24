@@ -7,6 +7,7 @@ import {
   Controller,
   Response,
   Example,
+  OperationId,
 } from 'tsoa';
 import { injectable } from 'tsyringe';
 import { IBadRequest } from '../../interfaces/IBadRequest';
@@ -32,6 +33,7 @@ export class CreateUserController extends Controller {
     error: [],
   })
   @Post()
+  @OperationId('createUser')
   async handle(@Body() data: ICreateUserRequestDTO): Promise<string> {
     const useCaseResult = await this.useCase.execute(data);
 

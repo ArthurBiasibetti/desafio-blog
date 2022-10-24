@@ -7,7 +7,11 @@
       "auth": {
         "type": "http",
         "scheme": "Bearer",
-        "bearerFormat": "JWT"
+        "bearerFormat": "JWT",
+        "scopes": {
+          "ADMIN": "ADMIN",
+          "USER": "USER"
+        }
       }
     },
     "basePath": "/api",

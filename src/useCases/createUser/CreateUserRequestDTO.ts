@@ -5,7 +5,6 @@
  *  "email": "salve"
  * }
  */
-
 export interface ICreateUserRequestDTO {
   name: string;
   password: string;

@@ -1,28 +1,13 @@
-import { Repository } from 'typeorm';
-import { PostEntity } from '../../database/entities/Post.Entity';
+import { singleton } from 'tsyringe';
+import { PostRepository } from '../../repositories/postRepository';
 import ISearchUserPostsRequestDTO from './SearchUserPostsRequestDTO';
 
+singleton();
 export default class SearchUserPostsUseCase {
-  constructor(private postRepository: Repository<PostEntity>) {}
+  constructor(private postRepository: PostRepository) {}
 
   async execute(data: ISearchUserPostsRequestDTO) {
-    const posts = await this.postRepository.find({
-      select: {
-        author: {
-          name: true,
-        },
-        categories: {
-          id: true,
-          name: true,
-        },
-      },
-      relations: { author: true, categories: true },
-      where: {
-        author: {
-          id: data.id,
-        },
-      },
-    });
+    const posts = await this.postRepository.findByUserId(data.id);
 
     return posts;
   }

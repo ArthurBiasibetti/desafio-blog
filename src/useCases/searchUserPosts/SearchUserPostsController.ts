@@ -1,19 +1,33 @@
-import { NextFunction, Request, Response } from 'express';
-import logger from '../../config/logger';
-import SearchPostsUseCase from './SearchUserPostsUseCase';
+import {
+  Controller,
+  Get,
+  OperationId,
+  Request,
+  Route,
+  Security,
+  SuccessResponse,
+  Tags,
+} from 'tsoa';
+import express from 'express';
+import { injectable } from 'tsyringe';
+import SearchUserPostsUseCase from './SearchUserPostsUseCase';
 
-export default class SearchPostsController {
-  constructor(private useCase: SearchPostsUseCase) {}
+@injectable()
+@Route('post/user')
+@Tags('Post')
+export class SearchUserPostsController extends Controller {
+  constructor(private useCase: SearchUserPostsUseCase) {
+    super();
+  }
 
-  async handle(request: Request, response: Response, next: NextFunction) {
-    try {
-      const { user } = response.locals;
-      const posts = await this.useCase.execute(user);
+  @SuccessResponse(200, 'Ok')
+  @Security('auth')
+  @Get()
+  @OperationId('findPostUser')
+  async handle(@Request() request: express.Request) {
+    const user = request.res?.locals?.user || {};
+    const posts = await this.useCase.execute(user);
 
-      return response.status(200).json(posts);
-    } catch (error: any) {
-      logger.error(`SearchUserPostsController: ${error.message}`);
-      return next(error);
-    }
+    return posts;
   }
 }

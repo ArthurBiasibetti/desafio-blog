@@ -1,17 +1,14 @@
-import { Repository } from 'typeorm';
-import { UserEntity } from '../../database/entities/User.Entity';
+import { singleton } from 'tsyringe';
+import { UserRepository } from '../../repositories/userRepository';
 import ApiError from '../../utils/apiError.utils';
 import ISearchUserRequestDTO from './SearchUserRequestDTO';
 
+@singleton()
 export default class SearchUserUseCase {
-  constructor(private userRepository: Repository<UserEntity>) {}
+  constructor(private userRepository: UserRepository) {}
 
   async execute(data: ISearchUserRequestDTO) {
-    const user = this.userRepository.findOne({
-      where: { id: data.id },
-      select: { name: true, id: true, posts: true, role: true },
-      relations: { posts: true },
-    });
+    const user = this.userRepository.findById(data.id);
 
     if (!user) {
       throw new ApiError(401, [], true, 'User not found!');

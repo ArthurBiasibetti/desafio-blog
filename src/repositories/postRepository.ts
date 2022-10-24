@@ -8,8 +8,44 @@ import { IPostRepository } from '../interfaces/IPostRepository';
 export class PostRepository implements IPostRepository {
   private repository = AppDataSource.getRepository(PostEntity);
 
-  async findById(id: string): Promise<PostEntity | null> {
-    throw new Error('Method not implemented.');
+  async findAll(): Promise<PostEntity[] | null> {
+    const posts = await this.repository.find({
+      select: {
+        description: true,
+        author: {
+          name: true,
+        },
+        categories: {
+          id: true,
+          name: true,
+        },
+      },
+      relations: { author: true, categories: true },
+    });
+
+    return posts;
+  }
+
+  async findByUserId(userId: string): Promise<PostEntity[] | null> {
+    const posts = await this.repository.find({
+      select: {
+        author: {
+          name: true,
+        },
+        categories: {
+          id: true,
+          name: true,
+        },
+      },
+      relations: { author: true, categories: true },
+      where: {
+        author: {
+          id: userId,
+        },
+      },
+    });
+
+    return posts;
   }
 
   async create(

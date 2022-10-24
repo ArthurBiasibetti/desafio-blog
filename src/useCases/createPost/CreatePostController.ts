@@ -7,13 +7,12 @@ import {
   Post,
   SuccessResponse,
   Security,
+  OperationId,
 } from 'tsoa';
 import { injectable } from 'tsyringe';
 import express from 'express';
 import CreatePostUseCase from './CreatePostUseCase';
 import ICreatePostRequestDTO from './CreatePostRequestDTO';
-
-type DataType = Omit<ICreatePostRequestDTO, 'userId'>;
 
 @injectable()
 @Route('/post/user')
@@ -23,10 +22,18 @@ export class CreatePostController extends Controller {
     super();
   }
 
+  /**
+   * Cria um post e retorna seu Id.
+   * @summary Cria um post.
+   */
   @SuccessResponse('201', 'Created')
   @Security('auth')
   @Post()
-  async handle(@Body() data: DataType, @Request() request: express.Request) {
+  @OperationId('createPost')
+  async handle(
+    @Body() data: Omit<ICreatePostRequestDTO, 'userId'>,
+    @Request() request: express.Request
+  ) {
     const user = request.res?.locals?.user || {};
 
     const useCaseResult = await this.useCase.execute({

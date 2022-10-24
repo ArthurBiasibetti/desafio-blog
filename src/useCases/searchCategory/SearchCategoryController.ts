@@ -1,18 +1,34 @@
-import { NextFunction, Request, Response } from 'express';
-import logger from '../../config/logger';
+import {
+  Controller,
+  Get,
+  OperationId,
+  Route,
+  Security,
+  SuccessResponse,
+  Tags,
+} from 'tsoa';
+import { injectable } from 'tsyringe';
 import SearchCategoryUseCase from './SearchCategoryUseCase';
 
-export default class SearchPostsController {
-  constructor(private useCase: SearchCategoryUseCase) {}
+@injectable()
+@Route('categorty')
+@Tags('Category')
+export class SearchCategoryController extends Controller {
+  constructor(private useCase: SearchCategoryUseCase) {
+    super();
+  }
 
-  async handle(request: Request, response: Response, next: NextFunction) {
-    try {
-      const posts = await this.useCase.execute();
+  /**
+   * Busca todas as categorias.
+   * @summary Busca todas as categorias.
+   */
+  @SuccessResponse('200', 'Ok')
+  @Security('auth', ['user'])
+  @Get()
+  @OperationId('createCategory')
+  async handle() {
+    const posts = await this.useCase.execute();
 
-      return response.status(200).json(posts);
-    } catch (error: any) {
-      logger.error(`SearchCategoryController: ${error.message}`);
-      return next(error);
-    }
+    return posts;
   }
 }

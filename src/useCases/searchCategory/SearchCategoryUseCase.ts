@@ -1,11 +1,12 @@
-import { Repository } from 'typeorm';
-import { CategoryEntity } from '../../database/entities/Category.Entity';
+import { singleton } from 'tsyringe';
+import { CategoryRepository } from '../../repositories/categoryRepository';
 
+@singleton()
 export default class SearchCategoryUseCase {
-  constructor(private categoryRepository: Repository<CategoryEntity>) {}
+  constructor(private categoryRepository: CategoryRepository) {}
 
   async execute() {
-    const category = await this.categoryRepository.find();
+    const category = await this.categoryRepository.findAll();
 
     return category;
   }

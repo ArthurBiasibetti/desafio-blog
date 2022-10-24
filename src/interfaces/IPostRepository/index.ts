@@ -4,7 +4,8 @@ import { UserEntity } from '../../database/entities/User.Entity';
 import { PostModel } from '../../database/models/Post.model';
 
 export interface IPostRepository {
-  findById(id: string): Promise<PostEntity | null>;
+  findByUserId(userId: string): Promise<PostEntity[] | null>;
+  findAll(): Promise<PostEntity[] | null>;
   create(
     postData: PostModel,
     author: UserEntity,
