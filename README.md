@@ -2,7 +2,7 @@
 
 > ## Objetivo
 
-Desenvolver um **Blog** onde se possa criar posts sobre assuntos variados
+Desenvolver um **Blog** onde se possa criar posts sobre assuntos variados.
 
 > ## Tecnologias
 
@@ -29,8 +29,10 @@ Para criar o usuario admin digite:
 
 - `$ npm run typeorm:seed` ou `$ yarn typeorm:seed`
 
+**⚠️⚠️⚠️ Após rodar ese comando será gerado um usuário de email admin@gmail.com e de senha: 123**
+
 > ## Rotas da aplicação
 
 Pode se ver as rotas da aplicação através do swagger na rota [localhost:3001/docs](http://localhost:3001/docs)
 
-**É necessario estar com a aplicação rodando! ⚠️**
+**⚠️⚠️⚠️ É necessario estar com a aplicação rodando!**

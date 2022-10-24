@@ -5,11 +5,11 @@ import helmet from 'helmet';
 import compression from 'compression';
 import cors from 'cors';
 import { ValidateError } from 'tsoa';
-import swaggerUi from 'swagger-ui-express';
 import config, { environments } from './config/config';
 import logger from './config/logger';
 import database from './config/database';
 import { RegisterRoutes } from './routes/routes';
+import swaggerDocs from './config/swagger';
 
 const corsOptions = {
   exposedHeaders: ['authorization', 'refresh'],
@@ -25,10 +25,6 @@ app.options('*', cors());
 
 RegisterRoutes(app);
 
-app.use('/docs', swaggerUi.serve, async (req: Request, res: Response) => {
-  return res.send(swaggerUi.generateHTML(await import('./swagger.json')));
-});
-
 if (config.env !== environments.PRODUCTION) {
   app.use(morgan('tiny'));
 }
@@ -37,6 +33,10 @@ app.listen(config.port, async () => {
   logger.info(`API rodando em http://${config.publicUrl}:${config.port}`);
 
   await database();
+
+  if (config.env !== environments.PRODUCTION) {
+    swaggerDocs(app, config.publicUrl, config.port);
+  }
 
   app.use((error: any, req: Request, res: Response, next: NextFunction) => {
     if (error instanceof ValidateError) {
