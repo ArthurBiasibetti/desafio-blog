@@ -12,7 +12,7 @@ export class CreateUserUseCase {
     const user = await this.userRepository.findByEmail(data.email);
 
     if (user) {
-      throw new ApiError(400, [], true, 'Email alredy exist!');
+      throw new ApiError(422, null, true, 'EMAIL_ALREADY_EXIST');
     }
   }
 

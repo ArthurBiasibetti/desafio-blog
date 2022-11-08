@@ -40,9 +40,10 @@ app.listen(config.port, async () => {
 
   app.use((error: any, req: Request, res: Response, next: NextFunction) => {
     if (error instanceof ValidateError) {
+      console.log(error);
       console.warn(`Caught Validation Error for ${req.path}:`, error.fields);
-      return res.status(422).json({
-        message: 'Validation Failed',
+      return res.status(error.status).json({
+        message: 'VALIDATION_FAILED',
         details: error?.fields,
       });
     }

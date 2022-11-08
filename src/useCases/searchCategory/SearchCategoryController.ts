@@ -11,7 +11,7 @@ import { injectable } from 'tsyringe';
 import SearchCategoryUseCase from './SearchCategoryUseCase';
 
 @injectable()
-@Route('categorty')
+@Route('category')
 @Tags('Category')
 export class SearchCategoryController extends Controller {
   constructor(private useCase: SearchCategoryUseCase) {
@@ -27,8 +27,8 @@ export class SearchCategoryController extends Controller {
   @Get()
   @OperationId('createCategory')
   async handle() {
-    const posts = await this.useCase.execute();
+    const category = await this.useCase.execute();
 
-    return posts;
+    return category;
   }
 }

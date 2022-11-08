@@ -2,13 +2,16 @@ import * as yup from 'yup';
 
 export const createPostSchema = yup.object({
   body: yup
-    .object({
-      name: yup.string().required('name is required!'),
-      description: yup.string().required('description is required!'),
+    .object()
+    .shape({
+      name: yup.string().required({ field: 'name', error: 'IS_REQUIRED' }),
+      description: yup
+        .string()
+        .required({ field: 'description', error: 'IS_REQUIRED' }),
       categories: yup
-        .array()
-        .min(1, 'is necessary at least one category')
-        .required('categories is required!'),
+        .array(yup.string())
+        .min(1, { field: 'categories', error: 'MIN_LENGTH', minLength: 1 })
+        .required({ field: 'categories', error: 'IS_REQUIRED' }),
     })
     .required(),
 });

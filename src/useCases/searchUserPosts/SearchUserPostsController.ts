@@ -10,7 +10,7 @@ import {
 } from 'tsoa';
 import express from 'express';
 import { injectable } from 'tsyringe';
-import SearchUserPostsUseCase from './SearchUserPostsUseCase';
+import { SearchUserPostsUseCase } from './SearchUserPostsUseCase';
 
 @injectable()
 @Route('post/user')

@@ -8,13 +8,17 @@ import {
   Response,
   Example,
   OperationId,
+  Middlewares,
 } from 'tsoa';
 import { injectable } from 'tsyringe';
 import { IBadRequest } from '../../interfaces/IBadRequest';
+import validate from '../../middlewares/validateResource';
+import { createUserSchema } from '../../schemas/userSchemas';
 import { ICreateUserRequestDTO } from './CreateUserRequestDTO';
 import { CreateUserUseCase } from './CreateUserUseCase';
 
 @injectable()
+@Middlewares(validate(createUserSchema))
 @Route('user')
 @Tags('User')
 export class CreateUserController extends Controller {

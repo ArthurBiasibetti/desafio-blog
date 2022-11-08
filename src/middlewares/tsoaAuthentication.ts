@@ -17,13 +17,13 @@ export const expressAuthentication = async (
     );
 
     if (!accessToken) {
-      throw new ApiError(401, [], true, 'No token provided');
+      throw new ApiError(401, null, true, 'NO_TOKEN_PROVIDED');
     }
 
     const { decoded, expired } = verifyJwt(accessToken);
 
     if (expired) {
-      throw new ApiError(401, [], true, 'Your token has expired');
+      throw new ApiError(401, null, true, 'TOKEN_EXPIRED');
     }
 
     if (decoded && request.res) {

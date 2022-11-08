@@ -7,12 +7,16 @@ import {
   Tags,
   Controller,
   OperationId,
+  Middlewares,
 } from 'tsoa';
 import { injectable } from 'tsyringe';
+import validate from '../../middlewares/validateResource';
+import { createCategorySchema } from '../../schemas/categorySchemas';
 import { ICreateCategoryRequestDTO } from './CreateCategoryRequestDTO';
 import CreateCategoryUseCase from './CreateCategoryUseCase';
 
 @injectable()
+@Middlewares(validate(createCategorySchema))
 @Route('category')
 @Tags('Category')
 export class CreateCategoryController extends Controller {

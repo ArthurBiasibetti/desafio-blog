@@ -14,13 +14,13 @@ export default class CreateSessionUseCase {
     const user = await this.userRepository.findByEmail(login.email);
 
     if (!user) {
-      throw new ApiError(401, [], true, 'User not found!');
+      throw new ApiError(401, null, true, 'WRONG_EMAIL_OR_PASSWORD');
     }
 
     const passwordIsValid = await bcrypt.compare(login.password, user.password);
 
     if (!passwordIsValid) {
-      throw new ApiError(401, [], true, 'wrong password!');
+      throw new ApiError(401, null, true, 'WRONG_EMAIL_OR_PASSWORD');
     }
 
     return user;

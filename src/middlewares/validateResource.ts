@@ -13,9 +13,8 @@ const validate =
       await schema.validate(object, { abortEarly: false });
       next();
     } catch (e: any) {
-      res.status(StatusCodes.BAD_REQUEST).json({
-        status: 'error',
-        message: 'Invalid request!',
+      res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({
+        message: 'INVALID_REQUEST',
         error: e.errors,
       });
     }

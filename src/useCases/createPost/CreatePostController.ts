@@ -8,13 +8,17 @@ import {
   SuccessResponse,
   Security,
   OperationId,
+  Middlewares,
 } from 'tsoa';
 import { injectable } from 'tsyringe';
 import express from 'express';
 import CreatePostUseCase from './CreatePostUseCase';
 import ICreatePostRequestDTO from './CreatePostRequestDTO';
+import validate from '../../middlewares/validateResource';
+import { createPostSchema } from '../../schemas/postSchemas';
 
 @injectable()
+@Middlewares(validate(createPostSchema))
 @Route('/post/user')
 @Tags('Post')
 export class CreatePostController extends Controller {

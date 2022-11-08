@@ -34,7 +34,7 @@ const models: TsoaRoute.Models = {
         "properties": {
             "name": {"dataType":"string","required":true},
         },
-        "additionalProperties": false,
+        "additionalProperties": true,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Pick_ICreatePostRequestDTO.Exclude_keyofICreatePostRequestDTO.userId__": {
@@ -58,7 +58,7 @@ const models: TsoaRoute.Models = {
             "name": {"dataType":"string","required":true},
             "description": {"dataType":"string","required":true},
         },
-        "additionalProperties": false,
+        "additionalProperties": true,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "IBase": {
@@ -68,7 +68,7 @@ const models: TsoaRoute.Models = {
             "created_at": {"dataType":"datetime","required":true},
             "updated_at": {"dataType":"datetime","required":true},
         },
-        "additionalProperties": false,
+        "additionalProperties": true,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Posts": {
@@ -84,7 +84,7 @@ const models: TsoaRoute.Models = {
             "role": {"ref":"UserRoles","required":true},
             "posts": {"dataType":"array","array":{"dataType":"refAlias","ref":"Posts"},"required":true},
         },
-        "additionalProperties": false,
+        "additionalProperties": true,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "IBadRequest": {
@@ -93,7 +93,7 @@ const models: TsoaRoute.Models = {
             "message": {"dataType":"string","required":true},
             "error": {"dataType":"array","array":{"dataType":"string"},"required":true},
         },
-        "additionalProperties": false,
+        "additionalProperties": true,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ICreateSessionDTO": {
@@ -102,7 +102,7 @@ const models: TsoaRoute.Models = {
             "email": {"dataType":"string","required":true},
             "password": {"dataType":"string","required":true},
         },
-        "additionalProperties": false,
+        "additionalProperties": true,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ICreateUserRequestDTO": {
@@ -112,7 +112,7 @@ const models: TsoaRoute.Models = {
             "password": {"dataType":"string","required":true},
             "email": {"dataType":"string","required":true},
         },
-        "additionalProperties": false,
+        "additionalProperties": true,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "PostEntity": {
@@ -126,7 +126,7 @@ const models: TsoaRoute.Models = {
             "author": {"ref":"UserEntity","required":true},
             "categories": {"dataType":"array","array":{"dataType":"refObject","ref":"CategoryEntity"},"required":true},
         },
-        "additionalProperties": false,
+        "additionalProperties": true,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "UserEntity": {
@@ -141,7 +141,7 @@ const models: TsoaRoute.Models = {
             "role": {"ref":"UserRoles","required":true},
             "posts": {"dataType":"array","array":{"dataType":"refObject","ref":"PostEntity"},"required":true},
         },
-        "additionalProperties": false,
+        "additionalProperties": true,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "CategoryEntity": {
@@ -153,7 +153,7 @@ const models: TsoaRoute.Models = {
             "name": {"dataType":"string","required":true},
             "posts": {"dataType":"array","array":{"dataType":"refObject","ref":"PostEntity"},"required":true},
         },
-        "additionalProperties": false,
+        "additionalProperties": true,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
@@ -289,7 +289,7 @@ export function RegisterRoutes(app: express.Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.get('/api/categorty',
+        app.get('/api/category',
             authenticateMiddleware([{"auth":["user"]}]),
             ...(fetchMiddlewares<RequestHandler>(SearchCategoryController)),
             ...(fetchMiddlewares<RequestHandler>(SearchCategoryController.prototype.handle)),
@@ -531,22 +531,22 @@ export function RegisterRoutes(app: express.Router) {
                 case 'request':
                     return request;
                 case 'query':
-                    return validationService.ValidateParam(args[key], request.query[name], name, fieldErrors, undefined, {"noImplicitAdditionalProperties":"throw-on-extras"});
+                    return validationService.ValidateParam(args[key], request.query[name], name, fieldErrors, undefined, {"noImplicitAdditionalProperties":"ignore"});
                 case 'path':
-                    return validationService.ValidateParam(args[key], request.params[name], name, fieldErrors, undefined, {"noImplicitAdditionalProperties":"throw-on-extras"});
+                    return validationService.ValidateParam(args[key], request.params[name], name, fieldErrors, undefined, {"noImplicitAdditionalProperties":"ignore"});
                 case 'header':
-                    return validationService.ValidateParam(args[key], request.header(name), name, fieldErrors, undefined, {"noImplicitAdditionalProperties":"throw-on-extras"});
+                    return validationService.ValidateParam(args[key], request.header(name), name, fieldErrors, undefined, {"noImplicitAdditionalProperties":"ignore"});
                 case 'body':
-                    return validationService.ValidateParam(args[key], request.body, name, fieldErrors, undefined, {"noImplicitAdditionalProperties":"throw-on-extras"});
+                    return validationService.ValidateParam(args[key], request.body, name, fieldErrors, undefined, {"noImplicitAdditionalProperties":"ignore"});
                 case 'body-prop':
-                    return validationService.ValidateParam(args[key], request.body[name], name, fieldErrors, 'body.', {"noImplicitAdditionalProperties":"throw-on-extras"});
+                    return validationService.ValidateParam(args[key], request.body[name], name, fieldErrors, 'body.', {"noImplicitAdditionalProperties":"ignore"});
                 case 'formData':
                     if (args[key].dataType === 'file') {
-                        return validationService.ValidateParam(args[key], request.file, name, fieldErrors, undefined, {"noImplicitAdditionalProperties":"throw-on-extras"});
+                        return validationService.ValidateParam(args[key], request.file, name, fieldErrors, undefined, {"noImplicitAdditionalProperties":"ignore"});
                     } else if (args[key].dataType === 'array' && args[key].array.dataType === 'file') {
-                        return validationService.ValidateParam(args[key], request.files, name, fieldErrors, undefined, {"noImplicitAdditionalProperties":"throw-on-extras"});
+                        return validationService.ValidateParam(args[key], request.files, name, fieldErrors, undefined, {"noImplicitAdditionalProperties":"ignore"});
                     } else {
-                        return validationService.ValidateParam(args[key], request.body[name], name, fieldErrors, undefined, {"noImplicitAdditionalProperties":"throw-on-extras"});
+                        return validationService.ValidateParam(args[key], request.body[name], name, fieldErrors, undefined, {"noImplicitAdditionalProperties":"ignore"});
                     }
                 case 'res':
                     return responder(response);

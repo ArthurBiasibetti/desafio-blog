@@ -2,8 +2,8 @@ import { singleton } from 'tsyringe';
 import { PostRepository } from '../../repositories/postRepository';
 import ISearchUserPostsRequestDTO from './SearchUserPostsRequestDTO';
 
-singleton();
-export default class SearchUserPostsUseCase {
+@singleton()
+export class SearchUserPostsUseCase {
   constructor(private postRepository: PostRepository) {}
 
   async execute(data: ISearchUserPostsRequestDTO) {

@@ -18,7 +18,7 @@ export default class CreatePostUseCase {
     const user = await this.userRepository.findById(userId);
 
     if (!user) {
-      throw new ApiError(400, [], true, 'User not found!');
+      throw new ApiError(400, null, true, 'USER_NOT_FOUND');
     }
 
     return user;
@@ -34,7 +34,7 @@ export default class CreatePostUseCase {
       const category = await this.categoryRepository.findById(categoryId);
 
       if (!category) {
-        errors.push(`category ${categoryId} not found`);
+        errors.push(categoryId);
       }
 
       if (category) {
@@ -43,7 +43,7 @@ export default class CreatePostUseCase {
     }
 
     if (errors.length) {
-      throw new ApiError(401, errors, true, 'Invalid request!');
+      throw new ApiError(422, errors, true, 'CATEGORY_NOT_FOUND');
     }
 
     return categoriesResult;

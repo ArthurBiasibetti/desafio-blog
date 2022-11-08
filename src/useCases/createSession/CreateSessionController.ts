@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Middlewares,
   OperationId,
   Post,
   Response,
@@ -10,11 +11,14 @@ import {
 } from 'tsoa';
 import { injectable } from 'tsyringe';
 import { IBadRequest } from '../../interfaces/IBadRequest';
+import validate from '../../middlewares/validateResource';
+import { createSessionSchema } from '../../schemas/sessionSchemas';
 import ICreateSessionDTO from './CreateSessionDTO';
 import ICreateSessionResponseDTO from './CreateSessionResponseDTO';
 import CreateSessionUseCase from './CreateSessionUseCase';
 
 @injectable()
+@Middlewares(validate(createSessionSchema))
 @Route('user/session')
 @Tags('User')
 export class CreateSessionController extends Controller {

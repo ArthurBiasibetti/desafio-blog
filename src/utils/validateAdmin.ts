@@ -8,11 +8,11 @@ const adminAuthentication = async (userId: string): Promise<void> => {
   const foundUser = await userRepository.findOne({ where: { id: userId } });
 
   if (!foundUser) {
-    throw new ApiError(401, [], true, 'User not found!');
+    throw new ApiError(401, null, true, 'USER_NOT_FOUND');
   }
 
   if (foundUser.role !== 'ADMIN') {
-    throw new ApiError(401, [], true, 'User is not an ADMIN!');
+    throw new ApiError(403, null, true, 'PERMISSION_DENIED');
   }
 };
 

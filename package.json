@@ -13,7 +13,7 @@
     "clean": "rimraf ./dist",
     "build": "npm run clean && tsc",
     "start": "npm run typeorm:deploy:run && node ./dist/src/index.js",
-    "predev": "tsoa spec-and-routes ",
+    "predev": "tsoa spec-and-routes",
     "dev": "ts-node-dev --transpile-only --respawn --inspect=9229 src/index.ts -x tsoa spec-and-routes",
     "test": "cross-env NODE_ENV=test DOTENV_CONFIG_PATH=.env.test jest --detectOpenHandles --runInBand",
     "test:unit": "cross-env NODE_ENV=test DOTENV_CONFIG_PATH=.env.test jest -c jest-unit.config.js --detectOpenHandles",

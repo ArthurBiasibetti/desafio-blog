@@ -2,9 +2,12 @@ import * as yup from 'yup';
 
 export const createSessionSchema = yup.object({
   body: yup
-    .object({
-      email: yup.string().required('email is required!'),
-      password: yup.string().required('password is required!'),
+    .object()
+    .shape({
+      email: yup.string().required({ field: 'email', error: 'IS_REQUIRED' }),
+      password: yup
+        .string()
+        .required({ field: 'password', error: 'IS_REQUIRED' }),
     })
     .required(),
 });

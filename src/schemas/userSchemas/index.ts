@@ -2,24 +2,28 @@ import * as yup from 'yup';
 
 export const createUserSchema = yup.object({
   body: yup
-    .object({
+    .object()
+    .shape({
       name: yup
         .string()
-        .max(120, 'name is max length 120')
-        .required('name is required!'),
-      email: yup.string().required('email is required!'),
-      password: yup.string().required('password is required!'),
+        .max(120, { field: 'name', error: 'MAX_LENGTH', maxLength: 120 })
+        .required({ field: 'name', error: 'IS_REQUIRED' }),
+      email: yup.string().required({ field: 'email', error: 'IS_REQUIRED' }),
+      password: yup
+        .string()
+        .required({ field: 'password', error: 'IS_REQUIRED' }),
     })
     .required(),
 });
 
 export const searchUserSchema = yup.object({
   params: yup
-    .object({
+    .object()
+    .shape({
       id: yup
         .string()
-        .uuid('id is required to be an uuid!')
-        .required('id is required!'),
+        .uuid({ field: 'id', error: 'IS_NOT_UUID' })
+        .required({ field: 'id', error: 'IS_REQUIRED' }),
     })
     .required(),
 });
