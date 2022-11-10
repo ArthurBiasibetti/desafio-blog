@@ -5,13 +5,13 @@ import { ICategoryRepository } from '../interfaces/ICategoryRepository';
 
 const repository = AppDataSource.getRepository(CategoryEntity);
 export class CategoryRepository implements ICategoryRepository {
-  async create(categoryData: CategoryModel): Promise<string> {
+  async create(categoryData: CategoryModel): Promise<{ id: string }> {
     const category = new CategoryEntity();
     category.name = categoryData.name;
 
     const { id } = await repository.save(category);
 
-    return id;
+    return { id };
   }
 
   async findAll(): Promise<CategoryEntity[]> {

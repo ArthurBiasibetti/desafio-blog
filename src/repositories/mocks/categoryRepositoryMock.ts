@@ -35,11 +35,11 @@ const categoryMocks: CategoryEntity[] = [
 ];
 
 export class CategoryRepositoryMock implements ICategoryRepository {
-  async create(categoryData: CategoryModel): Promise<string> {
+  async create(categoryData: CategoryModel): Promise<{ id: string }> {
     const category = new CategoryEntity();
     category.name = categoryData.name;
 
-    return category.id;
+    return { id: category.id };
   }
 
   async findAll(): Promise<CategoryEntity[]> {

@@ -5,5 +5,5 @@ export interface ICategoryRepository {
   findById(id: string): Promise<CategoryEntity | null>;
   findByName(name: string): Promise<CategoryEntity | null>;
   findAll(): Promise<CategoryEntity[]>;
-  create(categoryData: CategoryModel): Promise<string>;
+  create(categoryData: CategoryModel): Promise<{ id: string }>;
 }

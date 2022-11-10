@@ -11,7 +11,7 @@ export class PostEntity extends Base {
   @Column()
   public description: string;
 
-  @ManyToOne(() => UserEntity, (user) => user.posts) // note: we will create author property in the Photo class below
+  @ManyToOne(() => UserEntity, (user) => user.posts)
   public author: UserEntity;
 
   @ManyToMany(() => CategoryEntity, (category) => category.posts)

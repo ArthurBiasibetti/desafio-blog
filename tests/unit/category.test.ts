@@ -3,13 +3,20 @@ import CreateCategoryUseCase from '../../src/useCases/createCategory/CreateCateg
 
 describe('Category', () => {
   const repository = new CategoryRepositoryMock();
+  const sut = new CreateCategoryUseCase(repository);
+
+  describe('Should be', () => {
+    it('able to create a category', async () => {
+      const categoryId = await sut.execute({ name: 'CategoriaNova' });
+
+      expect(categoryId).toHaveProperty('id');
+    });
+  });
 
   describe('Should not be', () => {
     it('able to create an category', async () => {
-      const sut = new CreateCategoryUseCase(repository);
-
       await expect(sut.execute({ name: 'Terror' })).rejects.toThrow(
-        'CATEGORY_ALREADY_EXIs'
+        'CATEGORY_ALREADY_EXISTS'
       );
     });
   });
